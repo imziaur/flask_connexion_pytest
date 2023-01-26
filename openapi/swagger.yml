@@ -1,0 +1,95 @@
+openapi: 3.0.0
+info:
+  title: "FLASK REST API"
+  description: "APIs aboud Books and Authors"
+  version: "1.0.0"
+
+servers:
+  - url: "/api/v1"
+
+components:
+
+  parameters:
+    id:
+      name: "id"
+      description: "ID of the book"
+      in: path
+      required: true
+      schema:
+        type: "integer"
+paths:
+  /books:
+    get:
+      operationId: "book.all_books"
+      tags:
+      - Book
+      summary: "List all books"
+      responses:
+        "200":
+          description: "Successfully all books are fetched"
+  /book:  
+    post:
+      operationId: "book.create"
+      tags:
+        - Book
+      summary: "Add Book associated with an Author"
+      requestBody:
+          description: "Book to add"
+          required: True
+          content:
+            application/json:
+              schema:
+                x-body-name: "book"
+                type: "object"
+                properties:
+                  name:
+                    type: "string"
+                  title:
+                    type: "string"
+      responses:
+        "200":
+          description: "Successfully added a book"
+
+  /book/{id}:
+    get:
+      operationId: "book.read_one"
+      tags:
+        - Book
+      summary: "Read one book"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: "Successfully read the book"
+    put:
+      tags:
+        - Book
+      operationId: "book.update"
+      summary: "Update a book"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: "Successfully updated book"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              x-body-name: "book"
+              type: "object"
+              properties:
+                  name:
+                    type: "string"
+                  title:
+                    type: "string"
+
+    delete:
+      tags:
+        - Book
+      operationId: "book.delete"
+      summary: "Delete a book"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "204":
+          description: "Successfully deleted book"
